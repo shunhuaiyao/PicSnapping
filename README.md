@@ -2,6 +2,7 @@
 
 ## Architecture
 <img src="https://github.com/shunhuaiyao/PicSnapping/blob/master/architecture.png">
+
 * Model  
   
   We have two structures:
