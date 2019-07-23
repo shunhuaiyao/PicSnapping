@@ -30,8 +30,8 @@ extension ViewController {
     }
     func snapping(view: UIView, sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: view)
-        var xAnchors = getXAnchors(view: view)
-        var yAnchors = getYAnchors(view: view)
+        var xAnchors = getAnchors(view: view, axis: "X")
+        var yAnchors = getAnchors(view: view, axis: "Y")
         // check if there are other images on canvas
         guard xAnchors.count > 0 && yAnchors.count > 0 else {
             view.center = CGPoint(x: view.center.x + translation.x, y: view.center.y + translation.y)
@@ -58,33 +58,25 @@ extension ViewController {
         }
         sender.setTranslation(CGPoint.zero, in: view)
     }
-    func getXAnchors(view: UIView) -> [CGFloat?]{
-        var xAnchors = [CGFloat?]()
+    func getAnchors(view: UIView, axis: String) -> [CGFloat?]{
+        var anchors = [CGFloat?]()
         guard let allPictures = canvas?.pictures else {
-            return xAnchors
+            return anchors
         }
         for picture in allPictures {
             if view != picture!.imageView {
-                xAnchors.append(picture!.imageView.center.x)
-                xAnchors.append(picture!.imageView.center.x + picture!.imageView.frame.width/2 + view.frame.width/2)
-                xAnchors.append(picture!.imageView.center.x - picture!.imageView.frame.width/2 - view.frame.width/2)
+                if axis == "X" {
+                    anchors.append(picture!.imageView.center.x)
+                    anchors.append(picture!.imageView.center.x + picture!.imageView.frame.width/2 + view.frame.width/2)
+                    anchors.append(picture!.imageView.center.x - picture!.imageView.frame.width/2 - view.frame.width/2)
+                } else {
+                    anchors.append(picture!.imageView.center.y)
+                    anchors.append(picture!.imageView.center.y + picture!.imageView.frame.height/2 + view.frame.height/2)
+                    anchors.append(picture!.imageView.center.y - picture!.imageView.frame.height/2 - view.frame.height/2)
+                }
             }
         }
-        return xAnchors
-    }
-    func getYAnchors(view: UIView) -> [CGFloat?]{
-        var yAnchors = [CGFloat?]()
-        guard let allPictures = canvas?.pictures else {
-            return yAnchors
-        }
-        for picture in allPictures {
-            if view != picture!.imageView {
-                yAnchors.append(picture!.imageView.center.y)
-                yAnchors.append(picture!.imageView.center.y + picture!.imageView.frame.height/2 + view.frame.height/2)
-                yAnchors.append(picture!.imageView.center.y - picture!.imageView.frame.height/2 - view.frame.height/2)
-            }
-        }
-        return yAnchors
+        return anchors
     }
     func distance(x: CGFloat, y: CGFloat) -> CGFloat {
         return abs(x-y)
