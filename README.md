@@ -15,7 +15,7 @@
 
 * Controller  
   
-  We have a ViewController as a mediator between Model an View:
+  We have a ViewController as a mediator between Model and View:
   * _Handle Pan Gesture_: Handles pan gesture from View, and then updates views' frame.
   * _Auto-alignment_: When the action is considered to align moving picture to nearby pictures, _Auto-alignment_ will call _Get Anchors from Other Pictures_, and then set the moving picture to an anchor position.
   * _Get Anchors from Other Pictures_: Gets possible anchors from Model.
@@ -25,5 +25,5 @@ In this way, we can keep all the pictures' frame in Model, and easily get possib
 ## Snapping Rules
 * When the velocity of the moving picture is lower than the minimum velocity threshold we define, the intention of the action will be regarded as aligning the moving picture to some positions.
 * We then get the nearest possible anchor position from other static pictures.
-* Check if the nearest possible anchor position is close enough to the minimum distance threshold we define. If yes, we set the position of the moving picture as the anchor position.
+* Check if the nearest possible anchor position is close enough to the minimum distance threshold we define. If yes, we set the position of the moving picture to the anchor position.
 
