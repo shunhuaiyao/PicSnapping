@@ -11,5 +11,6 @@ import Foundation
 
 struct Canvas {
     var id: UUID
+    var canvasView: UIView
     var pictures: [Picture?]
 }

@@ -10,8 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var canvasView: UIView!
-    let minThreshold = CGFloat(5)
+    let minDistanceThreshold = CGFloat(5)
+    let minVelocityThreshold = CGFloat(50)
     var canvas: Canvas?
     var tableImage: Picture?
     var clockImage: Picture?
@@ -24,26 +24,25 @@ class ViewController: UIViewController {
     }
     func addMockData() {
         // add table image
-        tableImage = createPicture(name: "table.png", frame: CGRect(x: 0, y: 0, width: 250, height: 125))
+        tableImage = createPicture(name: "table.png", frame: CGRect(x: 20, y: 50, width: 173, height: 125))
         addPanGesture(view: tableImage!.imageView)
         // add clock image
-        clockImage = createPicture(name: "clock.png", frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        clockImage = createPicture(name: "clock.png", frame: CGRect(x: 20, y: 50, width: 100, height: 100))
         addPanGesture(view: clockImage!.imageView)
         // add clock image
-        clock2Image = createPicture(name: "clock.png", frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        clock2Image = createPicture(name: "clock.png", frame: CGRect(x: 20, y: 50, width: 100, height: 100))
         addPanGesture(view: clock2Image!.imageView)
         // add table and clocks into canvas
-        canvas = Canvas(id: UUID(), pictures: Array([tableImage, clockImage, clock2Image]))
+        canvas = Canvas(id: UUID(), canvasView: self.view, pictures: Array([tableImage, clockImage, clock2Image]))
     }
     func createPicture(name: String, frame: CGRect) -> Picture{
         let imageView = UIImageView(image: UIImage(named: name))
         imageView.frame = frame
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
-        imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.white.cgColor
-        canvasView.addSubview(imageView)
+        self.view.addSubview(imageView)
         return Picture(id: UUID(), imageView: imageView)
     }
     func addPanGesture(view: UIView) {

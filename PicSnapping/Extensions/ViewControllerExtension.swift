@@ -21,7 +21,7 @@ extension ViewController {
     func moveViewWithPan(view: UIView, sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: view)
         let velocity = sender.velocity(in: view)
-        guard abs(velocity.x) > 50 || abs(velocity.y) > 50 else {
+        guard abs(velocity.x) > minVelocityThreshold || abs(velocity.y) > minVelocityThreshold else {
             snapping(view: view, sender: sender)
             return
         }
@@ -40,11 +40,11 @@ extension ViewController {
         }
         // get the closest xAnchor
         xAnchors = xAnchors.filter { (i) -> Bool in
-            return distance(x: view.center.x, y: i!) < minThreshold
+            return distance(x: view.center.x, y: i!) < minDistanceThreshold
         }
         // get the closest yAnchor
         yAnchors = yAnchors.filter { (i) -> Bool in
-            return distance(x: view.center.y, y: i!) < minThreshold
+            return distance(x: view.center.y, y: i!) < minDistanceThreshold
         }
         // set view center to anchor point
         if let xAnchor = xAnchors.first, let yAnchor = yAnchors.first {
