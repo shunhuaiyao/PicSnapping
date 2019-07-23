@@ -27,3 +27,5 @@ In this way, we can keep all the pictures' frame in Model, and easily get possib
 * We then get the nearest possible anchor position from other static pictures.
 * Check if the nearest possible anchor position is close enough to the minimum distance threshold we define. If yes, we set the position of the moving picture to the anchor position.
 
+## How to Utilize Snapping Rules and Data Structures
+We use an array of Struct Canvas to store all Struct Pictures on the canvas. First, when we start aligning the picture, we fetch possible X and Y anchor points from other pictures on the canvas. From each X and Y anchor candidates, we select the nearest X and Y anchor points that are close enough to the center of the moving picture. If the nearest X and Y points exist, we set the center of the moving picture to the points.
