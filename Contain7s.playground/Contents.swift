@@ -53,13 +53,12 @@ func contain7sByString (_ N: Int) -> Int {
     return numsOf7
 }
 
-// Time complexity: O(digits*digits)
-// Space complexity: O(digits*digits)
-func contain7sByHeuristic (_ N: Int) -> Int {
+// Time complexity: O(digits)
+// Space complexity: O(digits)
+func contain7sByHeuristicHelper (_ N: Int) -> Int {
     guard N >= 7 else {
         return 0
     }
-    var numsOf7 = 0
     let digits = String(N).count
     var magicNumbers = [0]
     var i = 0
@@ -67,22 +66,29 @@ func contain7sByHeuristic (_ N: Int) -> Int {
         magicNumbers.append((magicNumbers[i] * 9) + Int(pow(Double(10), Double(i))))
         i+=1
     }
-    
+    return contain7sByHeuristic(N, magicNumbers)
+}
+func contain7sByHeuristic (_ N: Int, _ magicNumbers: [Int]) -> Int {
+    guard N >= 7 else {
+        return 0
+    }
+    var numsOf7 = 0
+    let digits = String(N).count
     let MSD = N / Int(pow(Double(10), Double(digits-1)))
     let remainder = N % Int(pow(Double(10), Double(digits-1)))
     if MSD == 7 {
         numsOf7 = MSD * magicNumbers[digits-1] + remainder + 1
     } else if MSD > 7 {
-        numsOf7 = (MSD - 1) * magicNumbers[digits-1] + Int(pow(Double(10), Double(digits-1))) + contain7sByHeuristic(remainder)
+        numsOf7 = (MSD - 1) * magicNumbers[digits-1] + Int(pow(Double(10), Double(digits-1))) + contain7sByHeuristic(remainder, magicNumbers)
     } else {
-        numsOf7 = MSD * magicNumbers[digits-1] + contain7sByHeuristic(remainder)
+        numsOf7 = MSD * magicNumbers[digits-1] + contain7sByHeuristic(remainder, magicNumbers)
     }
     return numsOf7
 }
 
 contain7sWithoutString(9725)
 contain7sByString(9725)
-contain7sByHeuristic(9725)
+contain7sByHeuristicHelper(9725)
 
 /*
  Test case:
